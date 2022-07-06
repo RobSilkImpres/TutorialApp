@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Hello World</title>
-</head>
+{% extends 'base.html' %}
 
-<body>
-    Hello World
-</body>
-</html>
+{% block content %}
+    <h1>{% block title %} Welcome to FlaskBlog {% endblock %}</h1>
+    {% for contact in contacts %}
+        <a href="#">
+            <h2>{{ contact[2] }}</h2>
+        </a>
+        <span class="badge badge-primary">{{ contact[1] }}</span>
+        <hr>
+    {% endfor %}
+{% endblock %}

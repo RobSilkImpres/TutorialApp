@@ -5,6 +5,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 def initializeDB():
-    logging.info("Beginning DB Initialization.")
+    logger.info("Beginning DB Initialization.")
     transactionManager.executeSQLFile('schema.sql')
-    logging.info("DB Initialization Complete.")
+    logger.info("DB Initialization Complete.")

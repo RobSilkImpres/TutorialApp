@@ -12,5 +12,5 @@ app = application
 if __name__ == "__main__":
     application.debug = True
     eng.lambda_handler("Application starting")
-    eng.initializeDB()
+    eng.executeScript('schema.sql')
     application.run()

@@ -20,3 +20,6 @@ class engine:
         
     def returnLogger(self):
         return self.logger
+    
+    def executeScript(self, filename):
+        transactionManager.executeSQLFile(filename)

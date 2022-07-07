@@ -2,7 +2,7 @@ from flask import Flask
 from werkzeug.exceptions import abort
 from website import create_app
 import pymysql
-from .init_db import initializeDB
+from dbinit import init_db
 
 # EB looks for an 'application' callable by default.
 application = create_app()

@@ -1,10 +1,11 @@
 from multiprocessing import connection
 import pymysql
+import os
 
 class transactionManager:
     def __init__(self, delimitor=";", autocommit=True):
         #Set autocommit to false
-        self.connection = pymysql.connect(host="poca-db.cixxwadsbdjm.us-east-2.rds.amazonaws.com", user="admin", password="password", database="poca", autocommit=autocommit)
+        self.connection = pymysql.connect(host=os.RDS_HOSTNAME, user=os.RDS_USER, password=os.RDS_PASSWORD, database=os.RDS_DB_NAME, autocommit=autocommit)
         self.delimitor = delimitor
         self.autocommit = autocommit
     

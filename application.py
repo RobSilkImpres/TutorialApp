@@ -11,5 +11,5 @@ app = application
 # run the app.
 if __name__ == "__main__":
     application.debug = True
-    init_db.initializeDB
+    init_db.initializeDB()
     application.run()

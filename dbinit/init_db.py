@@ -1,10 +1,7 @@
 from .dbc import transactionManager
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger()
+from pocaLogging import lambdaHandler
 
 def initializeDB():
-    logger.info("Beginning DB Initialization.")
+    lambdaHandler("Beginning DB Initialization.")
     transactionManager.executeSQLFile('schema.sql')
-    logger.info("DB Initialization Complete.")
+    lambdaHandler("DB Initialization Complete.")

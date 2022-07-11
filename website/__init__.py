@@ -15,9 +15,9 @@ def create_app():
     app.logger.addHandler(info_file_handler)
     app.logger.addHandler(error_file_handler)
     
-    app.logger.setLevel(logging.INFO)
+    app.logger.setLevel(logging.DEBUG)
     
-    app.logger.info("Logger Attached.")
+    app.logger.debug("Logger Attached.")
     
     tm = TransactionManager()
     
@@ -34,4 +34,11 @@ def create_app():
     #app.register_blueprint(auth, url_prefix='/')
     
     return app
+
+    @app.before_request
+    def before_request():
+        if request.method == 'GET':
+            app.logger.debug(f'{request.method} {request.base_url}: parameters {dict(request.args)}')
+        else:
+            app.logger.debug(f'{request.method} {request.base_url}: parameters {request.json}')
     

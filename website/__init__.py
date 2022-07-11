@@ -1,6 +1,6 @@
 from flask import Flask
 from flask.logging import default_handler
-from .dbc import TransactionManager
+from .persistance import PersistanceManager
 import os
 import logging
 
@@ -32,7 +32,7 @@ def create_app():
     
     app.logger.debug("Logger Attached.")
     
-    tm = TransactionManager()
+    tm = PersistanceManager()
     
     #Initialize DB
     app.logger.info("Beginning DB Initialization.")
@@ -47,11 +47,4 @@ def create_app():
     #app.register_blueprint(auth, url_prefix='/')
     
     return app
-
-    @app.before_request
-    def before_request():
-        if request.method == 'GET':
-            app.logger.debug(f'{request.method} {request.base_url}: parameters {dict(request.args)}')
-        else:
-            app.logger.debug(f'{request.method} {request.base_url}: parameters {request.json}')
     

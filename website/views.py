@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from datetime import date
+from .entity import Entity
 
 views = Blueprint('views', __name__)
 
@@ -21,6 +22,9 @@ def add_contact():
         elif dob > date.today():
             flash('Date of birth must be earlier than the current date.', category='warning')
         else:
-            #add user to db
+            newContact = Entity(firstName=firstName, lastName=lastName)
+            newContact.commit()
             flash('Contact has been added.', category='success')
+            return redirect(url_for('views.home'))
+
     return render_template('addContact.html')

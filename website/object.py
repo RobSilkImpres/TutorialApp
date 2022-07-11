@@ -1,0 +1,47 @@
+from .persistance import PersistanceManager
+from website import persistance
+
+class Object(PersistanceManager):
+    def __init__(self, autoGenID=True, tableName=False):
+        super().__init__(autoGenID, tableName)
+        self.isNew=True
+   
+    persistanceMapping = {
+        "createTime" : "createTime",
+        "editTime" : "editTime"
+    }
+    
+    def read(self, where):
+        attrs = self.persistanceMapping.keys()
+        statement = self.createSelectStatement(attrs, where)
+        result = self.runStatement(statement)
+        self.isNew=False
+        i = 0
+        for x in self.attrs:
+            setattr(self, x, result[i])
+            i = i + 1
+        return self
+
+    def create(self, arg):
+        for x in arg.keys():
+            setattr(self, x, arg[x])
+        return self
+    
+    def edit(self, newSelf):
+        for x in newSelf.keys():
+            setattr(self, x, newSelf[x])
+        return self
+    
+    def commit(self):
+        attributeMapping = {}
+        for x in self.persistanceMapping.keys():
+            attributeMapping[x] = getattr(self, x)
+        if self.isNew == True:
+            statement = self.createInsertStatement(attributeMapping)
+        else:
+            statement = self.createUpdateByIDStatement()
+
+        #self.runStatement(statement)
+    
+    def getAttrs(self):
+        return self.persistanceMapping.keys()

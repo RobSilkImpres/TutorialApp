@@ -3,6 +3,8 @@ import os
 import logging
 from .dbc import TransactionManager
 
+logging.basicConfig(filename = 'flask-tutorial-v3.log', level='INFO', format = '[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
     app.config['SECRET_KEY'] = 'SECRET'

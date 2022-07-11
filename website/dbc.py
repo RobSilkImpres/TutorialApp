@@ -2,7 +2,7 @@ from multiprocessing import connection
 import pymysql
 import os
 
-class transactionManager:
+class TransactionManager:
     def __init__(self, delimitor=";", autocommit=True):
         #Set autocommit to false
         self.connection = pymysql.connect(host=os.RDS_HOSTNAME, user=os.RDS_USER, password=os.RDS_PASSWORD, database=os.RDS_DB_NAME, autocommit=autocommit)
@@ -11,7 +11,7 @@ class transactionManager:
     
     def runStatement(self, sql):
         if not self.connection.open:
-            self.connection = pymysql.connect(host="poca-db.cixxwadsbdjm.us-east-2.rds.amazonaws.com", user="admin", password="password", database="poca", autocommit=self.autocommit)
+            self.connection = pymysql.connect(host=os.RDS_HOSTNAME, user=os.RDS_USER, password=os.RDS_PASSWORD, database=os.RDS_DB_NAME, autocommit=self.autocommit)
         try:
             cursor = self.connection.cursor()
             cursor.execute(sql)

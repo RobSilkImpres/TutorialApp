@@ -7,7 +7,7 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
     persist = PersistanceManager()
-    contacts = persist.runStatement('SELECT * FROM CONTACTS')
+    contacts = persist.runSelectStatement('SELECT * FROM CONTACTS')
     return render_template('index.html', contacts=contacts)
 
 @views.route('/addContact', methods=['GET', 'POST'])

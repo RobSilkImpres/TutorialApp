@@ -13,7 +13,7 @@ def add_contact():
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
         dob = request.form.get('dob')
-        
+
         if not firstName :
             flash('First name is required.', category='warning')
         elif not lastName:

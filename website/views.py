@@ -19,8 +19,8 @@ def add_contact():
             flash('First name is required.', category='warning')
         elif not lastName:
             flash('Last name is required.', category='warning')
-        elif dob > date.today():
-            flash('Date of birth must be earlier than the current date.', category='warning')
+        #elif dob > date.today():
+            #flash('Date of birth must be earlier than the current date.', category='warning')
         else:
             newContact = Entity(firstName=firstName, lastName=lastName)
             newContact.commit()

@@ -4,7 +4,7 @@ import os
 
 class TransactionManager:
     def __init__(self, delimitor=";", autocommit=True):
-        #Set autocommit to false
+        #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
         self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=autocommit)
         self.delimitor = delimitor
         self.autocommit = autocommit

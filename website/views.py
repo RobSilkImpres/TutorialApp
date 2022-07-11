@@ -23,7 +23,9 @@ def add_contact():
             #flash('Date of birth must be earlier than the current date.', category='warning')
         else:
             newContact = Entity(firstName=firstName, lastName=lastName)
+            newContact.info("Commit started")
             newContact.commit()
+            newContact.info("Commit done")
             flash('Contact has been added.', category='success')
             return redirect(url_for('views.home'))
 

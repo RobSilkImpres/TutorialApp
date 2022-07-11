@@ -5,13 +5,13 @@ import os
 class TransactionManager:
     def __init__(self, delimitor=";", autocommit=True):
         #Set autocommit to false
-        self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USER'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=autocommit)
+        self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=autocommit)
         self.delimitor = delimitor
         self.autocommit = autocommit
     
     def runStatement(self, sql):
         if not self.connection.open:
-            self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USER'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
+            self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
         try:
             cursor = self.connection.cursor()
             cursor.execute(sql)

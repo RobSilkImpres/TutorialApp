@@ -7,3 +7,8 @@ class Entity(Object):
             self.error("First and Last names cannot be NULL")
         self.firstName = firstName
         self.lastName = lastName
+    
+    persistanceMapping = {
+        "firstName" : "firstName",
+        "lastName" : "lastName"
+    }

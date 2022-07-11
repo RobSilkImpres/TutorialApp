@@ -1,14 +1,14 @@
 from .persistance import PersistanceManager
-from website import persistance
+import datetime
 
 class Object(PersistanceManager):
     def __init__(self, autoGenID=True, tableName=False):
         super().__init__(autoGenID, tableName)
         self.isNew=True
+        self.createTime = datetime.datetime.now()
    
     persistanceMapping = {
-        "createTime" : "createTime",
-        "editTime" : "editTime"
+        "createTime" : "createTime"
     }
     
     def read(self, where):

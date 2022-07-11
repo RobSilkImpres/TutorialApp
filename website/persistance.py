@@ -71,9 +71,8 @@ class PersistanceManager(Audit):
         return statement
     def runSelectStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
-        if not self.connection.open:
-            #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
-            self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
+        #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
+        self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
         try:
             cursor = self.connection.cursor()
             cursor.execute(sql)
@@ -91,9 +90,8 @@ class PersistanceManager(Audit):
                 self.error(Exception)
     def runStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
-        if not self.connection.open:
-            #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
-            self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
+        #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
+        self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
         try:
             cursor = self.connection.cursor()
             cursor.execute(sql)

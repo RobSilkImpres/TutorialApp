@@ -17,7 +17,7 @@ def create_app():
     
     app.logger.setLevel(logging.INFO)
     
-    app.logger.info('Application is starting.')
+    app.logger.info("Logger Attached.")
     
     tm = TransactionManager()
     

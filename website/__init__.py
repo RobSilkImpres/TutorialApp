@@ -12,8 +12,8 @@ logger.setLevel(logging.INFO)
 
 #Handler Options
 #handler = RotatingFileHandler('/home/vagrant/opt/python/log/application.log', maxBytes=1024,backupCount=5)
-handler = RotatingFileHandler('/opt/python/log/application.log', maxBytes=1024,backupCount=5)
-#handler = RotatingFileHandler('/var/log/application.log', maxBytes=1024,backupCount=5)
+#handler = RotatingFileHandler('/opt/python/log/application.log', maxBytes=1024,backupCount=5)
+handler = RotatingFileHandler('/var/log/application.log', maxBytes=1024,backupCount=5)
 
 #Set the handler formatter
 handler.setFormatter(formatter)

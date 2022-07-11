@@ -6,10 +6,9 @@ class Object(PersistanceManager):
         super().__init__(autoGenID, tableName)
         self.isNew=True
         self.createTime = datetime.datetime.now()
-   
-    persistanceMapping = {
-        "createTime" : "createTime"
-    }
+        self.persistanceMapping = {
+            "createTime" : "createTime"
+        }
     
     def read(self, where):
         attrs = self.persistanceMapping.keys()

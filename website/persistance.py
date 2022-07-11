@@ -6,8 +6,7 @@ class PersistanceManager(Audit):
     def __init__(self, autoGenID=True, tableName=False, delimitor=";", autocommit=True):
         super().__init__()
         self.persistanceMapping = {
-            "createTime" : "createTime",
-            "editTime" : "editTime"
+            "createTime" : "createTime"
         }
         if not tableName:
             self.persisted = False

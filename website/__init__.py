@@ -1,5 +1,5 @@
 from flask import Flask
-from logger import debug_file_handler, info_file_handler, error_file_handler
+from .logger import debug_file_handler, info_file_handler, error_file_handler
 from flask.logging import default_handler
 from .dbc import TransactionManager
 import os

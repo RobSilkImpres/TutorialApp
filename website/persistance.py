@@ -76,17 +76,17 @@ class PersistanceManager(Audit):
             cursor = self.connection.cursor()
             cursor.execute(sql)
             return cursor.fetchall()
-        except Exception:
-            self.error(Exception)
+        except Exception as e:
+            self.error(e)
         finally:
             try:
                 cursor.close()
-            except Exception:
-                self.error(Exception)
+            except Exception as e:
+                self.error(e)
             try:
                 self.connection.close()
-            except Exception:
-                self.error(Exception)
+            except Exception as e:
+                self.error(e)
     def runStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
@@ -96,19 +96,19 @@ class PersistanceManager(Audit):
             cursor.execute(sql)
             if self.connection.get_autocommit() == False:
                 self.connection.commit()
-        except Exception:
+        except Exception as e:
             if not self.connection.autocommit:
                 self.connection.rollback()
-            self.error(Exception)
+            self.error(e)
         finally:
             try:
                 cursor.close()
-            except Exception:
-                self.error(Exception)
+            except Exception as e:
+                self.error(e)
             try:
                 self.connection.close()
-            except Exception:
-                self.error(Exception)
+            except Exception as e:
+                self.error(e)
     
     def parseFile(self, data):
         stmts = []
@@ -135,8 +135,8 @@ class PersistanceManager(Audit):
     def executeSQLFile(self, filename):
         try:
             data = open(filename, 'r').readlines()
-        except Exception:
-            self.error(Exception)
+        except Exception as e:
+            self.error(e)
         else:
             stmts=self.parseFile(data)
             for stmt in stmts:

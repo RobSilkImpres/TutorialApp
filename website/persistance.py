@@ -1,5 +1,5 @@
 from .audit import Audit
-import pymysql
+import mysql.connector
 import os
 
 class PersistanceManager(Audit):
@@ -18,6 +18,11 @@ class PersistanceManager(Audit):
         self.delimitor = delimitor
         self.autocommit = autocommit
     
+    def createConn(self):
+        connection = mysql.connector.connect(
+            host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit
+        )
+        return connection
     def brStr(self, str):
         return "(" + str + ")"
 
@@ -71,9 +76,9 @@ class PersistanceManager(Audit):
     def runSelectStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
-        self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
+        connection = self.createConn()
         try:
-            cursor = self.connection.cursor()
+            cursor = connection.cursor()
             cursor.execute(sql)
             return cursor.fetchall()
         except Exception as e:
@@ -84,21 +89,21 @@ class PersistanceManager(Audit):
             except Exception as e:
                 self.error(e)
             try:
-                self.connection.close()
+                connection.close()
             except Exception as e:
                 self.error(e)
     def runStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
-        self.connection = pymysql.connect(host=os.environ['RDS_HOSTNAME'], user=os.environ['RDS_USERNAME'], password=os.environ['RDS_PASSWORD'], database=os.environ['RDS_DB_NAME'], autocommit=self.autocommit)
+        connection = self.createConn()
         try:
-            cursor = self.connection.cursor()
+            cursor = connection.cursor()
             cursor.execute(sql)
-            if self.connection.get_autocommit() == False:
-                self.connection.commit()
+            if connection.get_autocommit() == False:
+                connection.commit()
         except Exception as e:
-            if not self.connection.autocommit:
-                self.connection.rollback()
+            if not connection.autocommit:
+                connection.rollback()
             self.error(e)
         finally:
             try:
@@ -106,7 +111,7 @@ class PersistanceManager(Audit):
             except Exception as e:
                 self.error(e)
             try:
-                self.connection.close()
+                connection.close()
             except Exception as e:
                 self.error(e)
     

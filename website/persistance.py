@@ -124,10 +124,10 @@ class PersistanceManager(Audit):
         try:
             cursor = connection.cursor()
             cursor.execute(sql["stmt"], sql["data"])
-            if connection.get_autocommit() == False:
+            if self.autocommit == False:
                 connection.commit()
         except Exception as e:
-            if not connection.autocommit:
+            if not self.autocommit:
                 connection.rollback()
             self.error(e)
             raise

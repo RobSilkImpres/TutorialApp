@@ -15,7 +15,7 @@ class Object(PersistanceManager):
         self.classCode = self.classCode
 
     def read(self, where=''):
-        attrs = self.persistanceMapping.keys()
+        attrs = self.dbMap.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runStatement(statement)
         return result
@@ -33,7 +33,7 @@ class Object(PersistanceManager):
     
     def commit(self):
         attributeMapping = {}
-        for x in self.persistanceMapping.keys():
+        for x in self.dbMap.keys():
             self.info("Getting Attribute " + x)
             attributeMapping[x] = getattr(self, x)
         if self.isNew == True:
@@ -45,3 +45,5 @@ class Object(PersistanceManager):
     
     def getAttrs(self):
         return self.persistanceMapping.keys()
+    def getClass():
+        return Object.classCode

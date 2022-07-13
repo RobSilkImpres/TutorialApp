@@ -24,7 +24,11 @@ def add_contact():
         #elif dob > date.today():
             #flash('Date of birth must be earlier than the current date.', category='warning')
         else:
-            newContact = Entity()
+            newContact = Entity(
+                {
+                "firstName" : firstName,
+                "lastName" : lastName
+                })
             newContact.info("Commit started")
             newContact.commit()
             newContact.info("Commit done")

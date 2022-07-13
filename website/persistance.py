@@ -67,16 +67,11 @@ class PersistanceManager(Audit):
         if attrs == '*':
             statement = '*'
         else:
-            if isinstance(attrs, dict):
-                for x in attrs:
-                    if not statement:
-                        statement = x
-                    else:
-                        statement = statement + ", " + x
-            else:
-                self.error(self.className + " encountered an error: provided attrs is not of type dict")
-                self.error(str(attrs))
-                raise
+            for x in attrs:
+                if not statement:
+                    statement = x
+                else:
+                    statement = statement + ", " + x
         if not where:
             where = ''
         else:

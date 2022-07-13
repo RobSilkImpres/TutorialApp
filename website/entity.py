@@ -1,18 +1,17 @@
 from .object import Object
 
-persistanceMapping = {
+class Entity(Object):
+    persistanceMapping = {
         "firstName" : "firstName",
         "lastName" : "lastName",
         "classCode" : "classCode",
         "createTime" : "createTime",
         "editTime" : "editTime"
-}
-
-classCode = "ENT"
-
-tableName="CONTACTS"
-
-class Entity(Object):
+    }
+    
+    classCode = "ENT"
+    tableName="CONTACTS"
+    
     def __init__(self):
         super().__init__(True)
 

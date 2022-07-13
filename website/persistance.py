@@ -39,6 +39,7 @@ class PersistanceManager(Audit):
     def createInsertStatement(self, attributeMap):
         columns = ""
         values = ""
+        statement = ""
         #TODO Add in functions to handle tables that don't have autoGen IDs
         for x in attributeMap.keys():
             values = values + ", " + str(attributeMap[x])

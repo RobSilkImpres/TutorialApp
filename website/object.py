@@ -19,7 +19,7 @@ class Object(PersistanceManager):
     def read(self, where=''):
         attrs = self.dbMap.keys()
         statement = self.createSelectStatement(attrs, where)
-        result = self.runStatement(statement)
+        result = self.runSelectStatement(statement)
         return result
 
     def create(arg):

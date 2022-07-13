@@ -3,7 +3,9 @@ import datetime
 
 class Object(PersistanceManager):
     persistanceMapping = {
-        "classCode" : "classCode"
+        "classCode" : "classCode",
+        "createTime" : "createTime",
+        "editTime" : "editTime"
     }
 
     classCode = "OBJ"

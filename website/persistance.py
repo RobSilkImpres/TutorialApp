@@ -39,18 +39,13 @@ class PersistanceManager(Audit):
     def createInsertStatement(self, attributeMap):
         columns = ""
         values = ""
-        if isinstance(attributeMap, dict):
-            #TODO Add in functions to handle tables that don't have autoGen IDs
-            for x in attributeMap.keys():
-                values = values + ", " + str(attributeMap[x])
-                columns = columns + ", " + x.upper()
-            statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)
-            Audit.debug("SQL: " + statement)
-            return statement
-        else:
-            Audit.error(self.className + " encountered an error: provided attributeMap is not of type dict")
-            Audit.error(str(attributeMap))
-            return False
+        #TODO Add in functions to handle tables that don't have autoGen IDs
+        for x in attributeMap.keys():
+            values = values + ", " + str(attributeMap[x])
+            columns = columns + ", " + x.upper()
+        statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)
+        Audit.debug("SQL: " + statement)
+        return statement
 
     def createUpdateByIDStatement(self, attributeMap, id):
         statement = ""

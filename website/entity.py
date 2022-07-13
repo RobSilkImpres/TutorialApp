@@ -3,6 +3,9 @@ from .object import Object
 persistanceMapping = {
         "firstName" : "firstName",
         "lastName" : "lastName",
+        "classCode" : "classCode",
+        "createTime" : "createTime",
+        "editTime" : "editTime"
 }
 
 classCode = "ENT"

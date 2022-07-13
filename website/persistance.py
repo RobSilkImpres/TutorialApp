@@ -45,7 +45,7 @@ class PersistanceManager(Audit):
             values = values + ", " + str(attributeMap[x])
             columns = columns + ", " + x.upper()
         statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)
-        Audit.debug("SQL: " + statement)
+        self.debug("SQL: " + statement)
         return statement
 
     def createUpdateByIDStatement(self, attributeMap, id):

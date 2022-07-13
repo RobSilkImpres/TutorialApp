@@ -1,4 +1,3 @@
-from typing import overload
 from .persistance import PersistanceManager
 import datetime
 
@@ -25,10 +24,6 @@ class Object(PersistanceManager):
         obj = Object()
         for x in arg.keys():
             setattr(obj, x, arg[x])
-        return obj
-    @overload
-    def create():
-        obj = Object()
         return obj
     
     def edit(self, newSelf):

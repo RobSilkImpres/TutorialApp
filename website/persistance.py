@@ -38,7 +38,7 @@ class PersistanceManager(Audit):
     def brStr(self, str):
         return "(" + str + ")"
 
-    def prepValues(attr):
+    def prepValues(self, attr):
         if isinstance(attr, datetime):
             return attr.strftime("%m/%d/%Y, %H:%M:%S")
         else:

@@ -38,11 +38,11 @@ class Object(PersistanceManager):
         for x in self.dbMap.keys():
             attributeMapping[x] = getattr(self, x)
         if self.isNew == True:
-            statement = self.createInsertStatement(attributeMapping)
+            query = self.createInsertStatement(attributeMapping)
         else:
-            statement = self.createUpdateByIDStatement()
+            query = self.createUpdateByIDStatement()
 
-        self.runStatement(statement)
+        self.runStatement(query)
     
     def getAttrs(self):
         return self.persistanceMapping.keys()

@@ -1,6 +1,8 @@
+from datetime import datetime
 from .audit import Audit
 import mysql.connector
 import os
+import time
 
 class PersistanceManager(Audit):
     persistanceMapping = {
@@ -36,29 +38,36 @@ class PersistanceManager(Audit):
     def brStr(self, str):
         return "(" + str + ")"
 
+    def prepValues(attr):
+        if isinstance(attr, datetime):
+            return time.strftime('%Y-%m-%d %H:%M:%S', attr)
+        else:
+            return attr
     def createInsertStatement(self, attributeMap):
         columns = ""
-        values = ""
+        values = []
+        valueStr = ""
         statement = ""
         #TODO Add in functions to handle tables that don't have autoGen IDs
         for x in attributeMap.keys():
-            if not values:
-                values = str(attributeMap[x])
-            if not columns:
+            if not values or not columns:
+                values.append(self.prepValues(attributeMap[x]))
+                valueStr = "%s"
                 columns = x.upper()
-            values = values + ", " + str(attributeMap[x])
+            valueStr = valueStr + ", " + "%s"
             columns = columns + ", " + x.upper()
-        statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)
+            values.append(self.prepValues(attributeMap[x]))
+        statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(valueStr)
         self.debug("SQL: " + statement)
-        return statement
+        return {"stmt" : statement, "data" : tuple(values)}
 
     def createUpdateByIDStatement(self, attributeMap, id):
         statement = ""
         for x in attributeMap.keys():
             if not statement:
-                statement = x
+                statement = x.upper() + " = " + str.attributeMap[x]
             else:
-                statement = statement + x.upper() + " = " + str.attributeMap[x]
+                statement = statement + ", " + x.upper() + " = " + str.attributeMap[x]
         statement = "UPDATE " + self.tableName + " SET " + statement + " WHERE ID = " + str(id)
         self.debug("SQL: " + statement)
         return statement
@@ -114,7 +123,7 @@ class PersistanceManager(Audit):
         connection = self.createConn()
         try:
             cursor = connection.cursor()
-            cursor.execute(sql)
+            cursor.execute(sql["stmt"], sql["data"])
             if connection.get_autocommit() == False:
                 connection.commit()
         except Exception as e:

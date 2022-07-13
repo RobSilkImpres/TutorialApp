@@ -68,7 +68,7 @@ class PersistanceManager(Audit):
         else:
             self.error(self.className + " encountered an error: provided attrs is not of type dict")
             self.error(str(attrs))
-            return False
+            raise
         
         statement = "SELECT " + statement + " FROM " + self.tableName + " WHERE " + where
         self.debug("SQL: " + statement)
@@ -83,15 +83,18 @@ class PersistanceManager(Audit):
             return cursor.fetchall()
         except Exception as e:
             self.error(e)
+            raise
         finally:
             try:
                 cursor.close()
             except Exception as e:
                 self.error(e)
+                raise
             try:
                 connection.close()
             except Exception as e:
                 self.error(e)
+                raise
     def runStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
@@ -105,15 +108,18 @@ class PersistanceManager(Audit):
             if not connection.autocommit:
                 connection.rollback()
             self.error(e)
+            raise
         finally:
             try:
                 cursor.close()
             except Exception as e:
                 self.error(e)
+                raise
             try:
                 connection.close()
             except Exception as e:
                 self.error(e)
+                raise
     
     def parseFile(self, data):
         stmts = []
@@ -139,10 +145,27 @@ class PersistanceManager(Audit):
         return stmts
     def executeSQLFile(self, filename):
         try:
-            data = open(filename, 'r').readlines()
+            conn = self.createConn()
         except Exception as e:
             self.error(e)
+            raise
         else:
-            stmts=self.parseFile(data)
-            for stmt in stmts:
-                self.runStatement(stmt)
+            try:
+                with open(filename, 'r') as f:
+                    with conn.cursor() as cursor:
+                        cursor.execute(f.read(), multi=True)
+                    conn.commit()
+            except Exception as e:
+                self.error(e)
+                raise
+            finally:
+                try:
+                    cursor.close()
+                except Exception as e:
+                    self.error(e)
+                    raise
+                try:
+                    conn.close()
+                except Exception as e:
+                    self.error(e)
+                    raise

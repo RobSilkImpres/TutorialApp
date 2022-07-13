@@ -36,14 +36,13 @@ class Object(PersistanceManager):
     def commit(self):
         attributeMapping = {}
         for x in self.dbMap.keys():
-            self.info("Getting Attribute " + x)
             attributeMapping[x] = getattr(self, x)
         if self.isNew == True:
             statement = self.createInsertStatement(attributeMapping)
         else:
             statement = self.createUpdateByIDStatement()
 
-        #self.runStatement(statement)
+        self.runStatement(statement)
     
     def getAttrs(self):
         return self.persistanceMapping.keys()

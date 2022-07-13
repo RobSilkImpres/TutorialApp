@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from datetime import date
+from datetime import datetime, date
 from .entity import Entity
 from .persistance import PersistanceManager
 views = Blueprint('views', __name__)
@@ -15,8 +15,13 @@ def add_contact():
     if request.method == 'POST':
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
-        dob = request.form.get('dob')
-
+        dob = datetime.strptime(request.form.get('dob'))
+        arg = {
+            "firstName" : firstName,
+            "lastName" : lastName,
+            "dateOfBirth" : dob
+        }
+    
         if not firstName :
             flash('First name is required.', category='warning')
         elif not lastName:
@@ -24,11 +29,7 @@ def add_contact():
         #elif dob > date.today():
             #flash('Date of birth must be earlier than the current date.', category='warning')
         else:
-            newContact = Entity(
-                {
-                "firstName" : firstName,
-                "lastName" : lastName
-                })
+            newContact = Entity(arg)
             newContact.info("Commit started")
             newContact.commit()
             newContact.info("Commit done")

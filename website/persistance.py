@@ -54,9 +54,10 @@ class PersistanceManager(Audit):
                 values.append(self.prepValues(attributeMap[x]))
                 valueStr = "%s"
                 columns = x.upper()
-            valueStr = valueStr + ", " + "%s"
-            columns = columns + ", " + x.upper()
-            values.append(self.prepValues(attributeMap[x]))
+            else:
+                valueStr = valueStr + ", " + "%s"
+                columns = columns + ", " + x.upper()
+                values.append(self.prepValues(attributeMap[x]))
         statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(valueStr)
         self.debug("SQL: " + statement)
         return {"stmt" : statement, "data" : tuple(values)}

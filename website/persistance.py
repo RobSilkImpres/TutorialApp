@@ -13,7 +13,7 @@ class PersistanceManager(Audit):
         super().__init__()
         self.dbMap = {}
         for x in self.persistanceMapping.keys():
-            self.persistanceMapping[x] = self.dbMap[x]
+            self.dbMap[x] = self.persistanceMapping[x]
         if not self.tableName:
             self.persisted = False
         else:

@@ -1,7 +1,10 @@
 import logging
 import os
 
-class Audit:
+class CustomError(Exception):
+    pass
+
+class Audit(CustomError):
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.loggingLevel = os.environ.get('LOG_LEVEL', logging.DEBUG)
@@ -34,3 +37,6 @@ class Audit:
         elif level == 'ERROR':
             self.loggingLevel = logging.ERROR
             os.environ['LOG_LEVEL'] = 'ERROR'
+    
+    def raiseCustomError(msg):
+        raise CustomError(msg)

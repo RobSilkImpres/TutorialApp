@@ -6,13 +6,18 @@ class PersistanceManager(Audit):
     def __init__(self, autoGenID=True, tableName=False, delimitor=";", autocommit=True):
         super().__init__()
         self.persistanceMapping = {
-            "createTime" : "createTime"
+            "createTime" : "createTime",
+            "editTime" : "editTime"
         }
         if not tableName:
             self.persisted = False
         else:
-            self.tableName = tableName
-            self.persisted = True
+            if isinstance(tableName, str):
+                self.tableName = tableName.upper()
+                self.persisted = True
+            else:
+                error = "Table name " + str(tableName) + " is not of type String."
+                self.raiseCustomError(error)
         self.autoGenID = autoGenID
         self.className = 'PersistanceManager'
         self.delimitor = delimitor
@@ -33,7 +38,7 @@ class PersistanceManager(Audit):
             #TODO Add in functions to handle tables that don't have autoGen IDs
             for x in attributeMap.keys():
                 values = values + ", " + str(attributeMap[x])
-                columns = columns + ", " + x
+                columns = columns + ", " + x.upper()
             statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)
             self.debug("SQL: " + statement)
             return statement
@@ -48,7 +53,7 @@ class PersistanceManager(Audit):
             if not statement:
                 statement = x
             else:
-                statement = statement + x + " = " + attributeMap[x]
+                statement = statement + x.upper() + " = " + str.attributeMap[x]
         statement = "UPDATE " + self.tableName + " SET " + statement + " WHERE ID = " + str(id)
         self.debug("SQL: " + statement)
         return statement

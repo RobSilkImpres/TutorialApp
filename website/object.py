@@ -7,7 +7,8 @@ class Object(PersistanceManager):
         self.isNew=True
         self.createTime = datetime.datetime.now()
         self.persistanceMapping = {
-            "createTime" : "createTime"
+            "createTime" : "createTime",
+            "editTime" : "editTime"
         }
     
     def read(self, where=''):

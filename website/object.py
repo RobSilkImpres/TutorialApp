@@ -2,25 +2,29 @@ from .persistance import PersistanceManager
 import datetime
 
 class Object(PersistanceManager):
-    def __init__(self, autoGenID=True, tableName=False):
-        super().__init__(autoGenID, tableName)
+    persistanceMapping = {
+        "classCode" : "classCode"
+    }
+
+    classCode = "OBJ"
+    def __init__(self, autoGenID=True):
+        super().__init__(autoGenID=autoGenID)
         self.isNew=True
         self.createTime = datetime.datetime.now()
-        self.persistanceMapping = {
-            "createTime" : "createTime",
-            "editTime" : "editTime"
-        }
-    
+        self.editTime = datetime.datetime.now()
+        self.classCode = self.classCode
+
     def read(self, where=''):
         attrs = self.persistanceMapping.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runStatement(statement)
         return result
 
-    def create(self, arg):
+    def create(arg):
+        obj = Object()
         for x in arg.keys():
-            setattr(self, x, arg[x])
-        return self
+            setattr(obj, x, arg[x])
+        return obj
     
     def edit(self, newSelf):
         for x in newSelf.keys():

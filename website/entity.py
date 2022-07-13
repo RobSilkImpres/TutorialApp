@@ -1,14 +1,20 @@
 from .object import Object
 
-class Entity(Object):
-    def __init__(self, firstName, lastName):
-        super().__init__(True, tableName="contacts")
-        if not firstName or not lastName:
-            self.error("First and Last names cannot be NULL")
-        self.firstName = firstName
-        self.lastName = lastName
-    
-    persistanceMapping = {
+persistanceMapping = {
         "firstName" : "firstName",
-        "lastName" : "lastName"
-    }
+        "lastName" : "lastName",
+}
+
+classCode = "ENT"
+
+tableName="CONTACTS"
+
+class Entity(Object):
+    def __init__(self):
+        super().__init__(True)
+
+    def create(arg):
+        obj = Entity()
+        for x in arg.keys():
+            setattr(obj, x, arg[x])
+        return obj

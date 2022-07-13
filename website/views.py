@@ -6,9 +6,9 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
-    contact = Entity()
+    contact = Entity.create()
     result = contact.read()
-    return render_template('index.html')
+    return render_template('index.html', contacts=result)
 
 @views.route('/addContact', methods=['GET', 'POST'])
 def add_contact():
@@ -24,7 +24,7 @@ def add_contact():
         #elif dob > date.today():
             #flash('Date of birth must be earlier than the current date.', category='warning')
         else:
-            newContact = Entity(firstName=firstName, lastName=lastName)
+            newContact = Entity()
             newContact.info("Commit started")
             newContact.commit()
             newContact.info("Commit done")

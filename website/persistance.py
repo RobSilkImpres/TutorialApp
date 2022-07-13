@@ -3,21 +3,26 @@ import mysql.connector
 import os
 
 class PersistanceManager(Audit):
-    def __init__(self, autoGenID=True, tableName=False, delimitor=";", autocommit=True):
+    persistanceMapping = {
+        "createTime" : "createTime",
+        "editTime" : "editTime"
+    }
+
+    tableName = ''
+    def __init__(self, autoGenID=True, delimitor=";", autocommit=True):
         super().__init__()
-        self.persistanceMapping = {
-            "createTime" : "createTime",
-            "editTime" : "editTime"
-        }
-        if not tableName:
+        self.dbMap = {}
+        for x in self.persistanceMapping.keys():
+            self.persistanceMapping[x] = self.dbMap[x]
+        if not self.tableName:
             self.persisted = False
         else:
-            if isinstance(tableName, str):
-                self.tableName = tableName.upper()
+            if isinstance(self.tableName, str):
+                self.tableName = self.tableName.upper()
                 self.persisted = True
             else:
-                error = "Table name " + str(tableName) + " is not of type String."
-                self.raiseCustomError(error)
+                error = "Table name " + str(self.tableName) + " is not of type String."
+                Audit.raiseCustomError(error)
         self.autoGenID = autoGenID
         self.className = 'PersistanceManager'
         self.delimitor = delimitor
@@ -40,11 +45,11 @@ class PersistanceManager(Audit):
                 values = values + ", " + str(attributeMap[x])
                 columns = columns + ", " + x.upper()
             statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)
-            self.debug("SQL: " + statement)
+            Audit.debug("SQL: " + statement)
             return statement
         else:
-            self.error(self.className + " encountered an error: provided attributeMap is not of type dict")
-            self.error(str(attributeMap))
+            Audit.error(self.className + " encountered an error: provided attributeMap is not of type dict")
+            Audit.error(str(attributeMap))
             return False
 
     def createUpdateByIDStatement(self, attributeMap, id):

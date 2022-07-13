@@ -40,7 +40,7 @@ class PersistanceManager(Audit):
 
     def prepValues(attr):
         if isinstance(attr, datetime):
-            return time.strftime('%Y-%m-%d %H:%M:%S', attr)
+            return attr.strftime("%m/%d/%Y, %H:%M:%S")
         else:
             return attr
     def createInsertStatement(self, attributeMap):

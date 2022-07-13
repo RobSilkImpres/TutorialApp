@@ -10,7 +10,7 @@ class Object(PersistanceManager):
             "createTime" : "createTime"
         }
     
-    def read(self, where):
+    def read(self, where=''):
         attrs = self.persistanceMapping.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runStatement(statement)

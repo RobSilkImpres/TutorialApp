@@ -42,6 +42,10 @@ class PersistanceManager(Audit):
         statement = ""
         #TODO Add in functions to handle tables that don't have autoGen IDs
         for x in attributeMap.keys():
+            if not values:
+                values = str(attributeMap[x])
+            if not columns:
+                columns = x.upper()
             values = values + ", " + str(attributeMap[x])
             columns = columns + ", " + x.upper()
         statement = "INSERT INTO " + self.tableName + " " + self.brStr(columns) + " VALUES " + self.brStr(values)

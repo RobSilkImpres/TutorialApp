@@ -87,7 +87,7 @@ class PersistanceManager(Audit):
         try:
             cursor = connection.cursor()
             cursor.execute(sql)
-            return cursor.fetchall()
+            result = cursor.fetchall()
         except Exception as e:
             self.error(e)
             raise
@@ -102,6 +102,7 @@ class PersistanceManager(Audit):
             except Exception as e:
                 self.error(e)
                 raise
+            return result
     def runStatement(self, sql):
         self.logger.debug('SQL: ' + sql)
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk

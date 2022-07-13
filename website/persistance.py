@@ -64,6 +64,7 @@ class PersistanceManager(Audit):
         return statement
     
     def createSelectStatement(self, attrs='*', where=False):
+        statement = ""
         if attrs == '*':
             statement = '*'
         else:

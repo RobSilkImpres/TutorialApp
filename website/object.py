@@ -14,12 +14,7 @@ class Object(PersistanceManager):
         attrs = self.persistanceMapping.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runStatement(statement)
-        self.isNew=False
-        i = 0
-        for x in self.attrs:
-            setattr(self, x, result[i])
-            i = i + 1
-        return self
+        return result
 
     def create(self, arg):
         for x in arg.keys():

@@ -58,19 +58,25 @@ class PersistanceManager(Audit):
         self.debug("SQL: " + statement)
         return statement
     
-    def createSelectStatement(self, attrs, where):
-        if isinstance(attrs, dict):
-            for x in attrs:
-                if not statement:
-                    statement = x
-                else:
-                    statement = statement + ", " + x
+    def createSelectStatement(self, attrs='*', where=False):
+        if attrs == '*':
+            statement = '*'
         else:
-            self.error(self.className + " encountered an error: provided attrs is not of type dict")
-            self.error(str(attrs))
-            raise
-        
-        statement = "SELECT " + statement + " FROM " + self.tableName + " WHERE " + where
+            if isinstance(attrs, dict):
+                for x in attrs:
+                    if not statement:
+                        statement = x
+                    else:
+                        statement = statement + ", " + x
+            else:
+                self.error(self.className + " encountered an error: provided attrs is not of type dict")
+                self.error(str(attrs))
+                raise
+        if not where:
+            where = ''
+        else:
+            where = " WHERE " + where
+        statement = "SELECT " + statement + " FROM " + self.tableName + where
         self.debug("SQL: " + statement)
         return statement
     def runSelectStatement(self, sql):
@@ -144,6 +150,7 @@ class PersistanceManager(Audit):
                 stmts.append(line.strip())
         return stmts
     def executeSQLFile(self, filename):
+        self.debug("Running script " + filename)
         try:
             conn = self.createConn()
         except Exception as e:
@@ -153,7 +160,7 @@ class PersistanceManager(Audit):
             try:
                 with open(filename, 'r') as f:
                     with conn.cursor() as cursor:
-                        cursor.execute(f.read(), multi=True)
+                        result = cursor.execute(f.read(), multi=True)
                     conn.commit()
             except Exception as e:
                 self.error(e)
@@ -169,3 +176,4 @@ class PersistanceManager(Audit):
                 except Exception as e:
                     self.error(e)
                     raise
+                return result

@@ -44,7 +44,7 @@ def post(contact_id):
     this = Entity()
     contact = this.read("id = " + contact_id)
     if contact:
-        return render_template('contact.html', contact=contact)
+        return render_template('contact.html', contact=contact[0])
     else:
         flash('Contact ' + contact_id + ' not found.', category='warning')
         return redirect(url_for('views.home'))

@@ -30,6 +30,7 @@ class Object(PersistanceManager):
                 resultDict[y] = inst[i]
                 i = i + 1
             resultSet.append(resultDict)
+        self.debug(resultSet)
         return tuple(result)
 
     def create(arg):

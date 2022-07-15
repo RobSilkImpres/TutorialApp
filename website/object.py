@@ -39,7 +39,7 @@ class Object(PersistanceManager):
             setattr(obj, x, arg[x])
         return obj
     
-    def edit(self, newSelf):
+    def update(self, newSelf):
         for x in newSelf.keys():
             setattr(self, x, newSelf[x])
         self.isNew = False

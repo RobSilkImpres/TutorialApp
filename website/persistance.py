@@ -124,7 +124,7 @@ class PersistanceManager(Audit):
             except Exception as e:
                 self.error(e)
                 raise e
-            return result
+        return result
     def runStatement(self, sql):
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
         connection = self.createConn()

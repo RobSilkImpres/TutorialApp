@@ -72,6 +72,8 @@ def editContact(contact_id):
         else:
             updatedContact = Entity()
             updatedContact.update(arg)
+            updatedContact.debug("Double checking")
+            updatedContact.debug(updatedContact.id)
             updatedContact.info("Commit started")
             updatedContact.commit()
             updatedContact.info("Commit done")

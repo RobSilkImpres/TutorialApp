@@ -38,7 +38,7 @@ def add_contact():
 
     return render_template('addContact.html')
 
-@views.route('/<str:contact_id>')
+@views.route('/<contact_id>')
 def post(contact_id):
     this = Entity()
     contact = this.read("id = " + contact_id)

@@ -8,6 +8,7 @@ views = Blueprint('views', __name__)
 def home():
     contact = Entity.create()
     result = contact.read()
+    contact.info(result)
     return render_template('index.html', contacts=result)
 
 @views.route('/addContact', methods=['GET', 'POST'])

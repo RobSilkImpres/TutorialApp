@@ -22,6 +22,7 @@ class Object(PersistanceManager):
         attrs = self.dbMap.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runSelectStatement(statement)
+        self.debug(result)
         for x in result:
             inst = x
             i = 0

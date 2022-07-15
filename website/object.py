@@ -31,7 +31,7 @@ class Object(PersistanceManager):
                 i = i + 1
             resultSet.append(resultDict)
         self.debug(resultSet)
-        return tuple(result)
+        return tuple(resultSet)
 
     def create(arg):
         obj = Object()

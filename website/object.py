@@ -24,9 +24,10 @@ class Object(PersistanceManager):
         result = self.runSelectStatement(statement)
         for x in result:
             inst = x
-            i = 0
+            i = 1
+            resultDict['id'] = inst[0]
             for y in attrs:
-                resultDict[y] = result[i]
+                resultDict[y] = inst[i]
                 i = i + 1
             resultSet.append(resultDict)
         return tuple(result)

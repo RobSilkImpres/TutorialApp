@@ -6,7 +6,8 @@ class Entity(Object):
         "lastName" : "lastName",
         "classCode" : "classCode",
         "createTime" : "createTime",
-        "editTime" : "editTime"
+        "editTime" : "editTime",
+        "dob" : "dob"
     }
     
     classCode = "ENT"

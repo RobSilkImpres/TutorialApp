@@ -48,7 +48,7 @@ class PersistanceManager(Audit):
         values = []
         valueStr = ""
         statement = ""
-        #TODO Add in functions to handle tables that don't have autoGen IDs
+        #Create a list of values to be added to the execute statement. List will converted into tuple upon return
         for x in attributeMap.keys():
             if not values or not columns:
                 values.append(self.prepValues(attributeMap[x]))
@@ -64,33 +64,40 @@ class PersistanceManager(Audit):
 
     def createUpdateByIDStatement(self, attributeMap, id):
         statement = ""
+        values = []
+        #Create a list of values to be added to the execute statement. List will converted into tuple upon return
+        for x in attributeMap.keys():
+            if not statement:
+                values.append(self.prepValues(attributeMap[x]))
+                statement = x.upper() + " = %s"
+            else:
+                statement = statement + ", " + x.upper() + " = %s"
+                values.append(self.prepValues(attributeMap[x]))
         for x in attributeMap.keys():
             if not statement:
                 statement = x.upper() + " = " + str.attributeMap[x]
             else:
                 statement = statement + ", " + x.upper() + " = " + str.attributeMap[x]
         statement = "UPDATE " + self.tableName + " SET " + statement + " WHERE ID = " + str(id)
-        self.debug("SQL: " + statement)
-        return statement
+        return {"stmt" : statement, "data" : tuple(values)}
     
     def createDeleteByIDStatement(self, id):
         statement = "DELETE FROM " + self.tableName + "WHERE ID = " + str(id)
-        self.debug("SQL: " + statement)
-        return statement
+        return {"stmt" : statement, "data" : tuple([])}
     
-    def createSelectStatement(self, attrs='*', where=False):
+    def createSelectStatement(self, attrs='*', where=''):
         statement = ""
         if attrs == '*':
             statement = '*'
         else:
+            if self.autoGenID == True:
+                statement = "ID"
             for x in attrs:
                 if not statement:
                     statement = x
                 else:
                     statement = statement + ", " + x
-        if not where:
-            where = ''
-        else:
+        if where:
             where = " WHERE " + where
         statement = "SELECT " + statement + " FROM " + self.tableName + where
         self.debug("SQL: " + statement)
@@ -105,18 +112,18 @@ class PersistanceManager(Audit):
             result = cursor.fetchall()
         except Exception as e:
             self.error(e)
-            raise
+            raise e
         finally:
             try:
                 cursor.close()
             except Exception as e:
                 self.error(e)
-                raise
+                raise e
             try:
                 connection.close()
             except Exception as e:
                 self.error(e)
-                raise
+                raise e
             return result
     def runStatement(self, sql):
         #Set autocommit to false. Environment variables are pulled from Elastic Beanstalk
@@ -130,48 +137,25 @@ class PersistanceManager(Audit):
             if not self.autocommit:
                 connection.rollback()
             self.error(e)
-            raise
+            raise e
         finally:
             try:
                 cursor.close()
             except Exception as e:
                 self.error(e)
-                raise
+                raise e
             try:
                 connection.close()
             except Exception as e:
                 self.error(e)
-                raise
-    
-    def parseFile(self, data):
-        stmts = []
-        DELIMITER = ';'
-        stmt = ''
-        for lineno, line in enumerate(data):
-            if not line.strip():
-                continue
-            if line.startswith('--'):
-                continue
-            if 'DELIMITER' in line:
-                DELIMITER = line.split()[1]
-                continue
-            if (DELIMITER not in line):
-                stmt += line.replace(DELIMITER, ';')
-                continue
-            if stmt:
-                stmt += line
-                stmts.append(stmt.strip())
-                stmt = ''
-            else:
-                stmts.append(line.strip())
-        return stmts
+                raise e
     def executeSQLFile(self, filename):
         self.debug("Running script " + filename)
         try:
             conn = self.createConn()
         except Exception as e:
             self.error(e)
-            raise
+            raise e
         else:
             try:
                 with open(filename, 'r') as f:
@@ -180,16 +164,16 @@ class PersistanceManager(Audit):
                     conn.commit()
             except Exception as e:
                 self.error(e)
-                raise
+                raise e
             finally:
                 try:
                     cursor.close()
                 except Exception as e:
                     self.error(e)
-                    raise
+                    raise e
                 try:
                     conn.close()
                 except Exception as e:
                     self.error(e)
-                    raise
+                    raise e
                 return result

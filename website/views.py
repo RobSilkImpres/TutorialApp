@@ -19,7 +19,7 @@ def add_contact():
         arg = {
             "firstName" : firstName,
             "lastName" : lastName,
-            "dateOfBirth" : dob
+            "dob" : dob
         }
     
         if not firstName :
@@ -37,3 +37,13 @@ def add_contact():
             return redirect(url_for('views.home'))
 
     return render_template('addContact.html')
+
+@views.route('/<str:contact_id>')
+def post(contact_id):
+    this = Entity()
+    contact = this.read("id = " + contact_id)
+    if contact:
+        return render_template('contact.html', contact=contact)
+    else:
+        flash('Contact ' + contact_id + ' not found.', category='warning')
+        return redirect(url_for('views.home'))

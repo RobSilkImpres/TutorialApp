@@ -160,7 +160,8 @@ class PersistanceManager(Audit):
             try:
                 with open(filename, 'r') as f:
                     with conn.cursor() as cursor:
-                        cursor.execute(f.read(), multi=True)
+                        for _ in cursor.execute(f.read(), multi=True): pass
+                        #cursor.execute(f.read(), multi=True)
                     conn.commit()
             except Exception as e:
                 self.error(e)

@@ -22,12 +22,12 @@ class Object(PersistanceManager):
         attrs = self.dbMap.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runSelectStatement(statement)
-        self.debug(result)
         for x in result:
             inst = x
             i = 0
-            for y in attrs.keys():
+            for y in attrs:
                 resultDict[y] = result[i]
+                i = i + 1
             resultSet.append(resultDict)
         return tuple(result)
 

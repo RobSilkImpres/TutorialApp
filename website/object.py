@@ -17,10 +17,18 @@ class Object(PersistanceManager):
         self.classCode = self.classCode
 
     def read(self, where=''):
+        resultDict = {}
+        resultSet = []
         attrs = self.dbMap.keys()
         statement = self.createSelectStatement(attrs, where)
         result = self.runSelectStatement(statement)
-        return result
+        for x in result:
+            inst = x
+            i = 0
+            for y in attrs.keys():
+                resultDict[y] = result[i]
+            resultSet.append(resultDict)
+        return tuple(result)
 
     def create(arg):
         obj = Object()

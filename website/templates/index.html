@@ -3,10 +3,10 @@
 {% block content %}
     <h1>{% block title %} Welcome to IMVN.5 {% endblock %}</h1>
     {% for contact in contacts %}
-        <a href={{contact[0]}}>
-            <h2>{{ contact[1] + ", " + contact[2] }}</h2>
+        <a href={{contact['id']}}>
+            <h2>{{ contact['lastName'] + ", " + contact['firstName'] }}</h2>
         </a>
-        <span class="badge badge-primary">{{ contact[1] }}</span>
+        <span class="badge badge-primary">{{ contact['dob'] }}</span>
         <hr>
     {% endfor %}
 {% endblock %}

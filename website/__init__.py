@@ -32,13 +32,6 @@ def create_app():
     
     app.logger.debug("Logger Attached.")
     
-    tm = PersistanceManager()
-    
-    #Initialize DB
-    app.logger.info("Beginning DB Initialization.")
-    tm.executeSQLFile('schema.sql')
-    app.logger.info("DB Initialization Complete.")
-    
     #Register blueprints to define server paths
     from .views import views
     #from .auth import auth

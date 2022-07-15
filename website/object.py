@@ -7,7 +7,7 @@ class Object(PersistanceManager):
         "createTime" : "createTime",
         "editTime" : "editTime"
     }
-
+    id = ''
     classCode = "OBJ"
     def __init__(self, autoGenID=True):
         super().__init__(autoGenID=autoGenID)
@@ -42,6 +42,7 @@ class Object(PersistanceManager):
     def edit(self, newSelf):
         for x in newSelf.keys():
             setattr(self, x, newSelf[x])
+        self.isNew = False
         return self
     
     def commit(self):
@@ -51,7 +52,7 @@ class Object(PersistanceManager):
         if self.isNew == True:
             query = self.createInsertStatement(attributeMapping)
         else:
-            query = self.createUpdateByIDStatement()
+            query = self.createUpdateByIDStatement(attributeMapping, self.id)
 
         self.runStatement(query)
     

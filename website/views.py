@@ -52,6 +52,7 @@ def viewContact(contact_id):
 @views.route('/<int:contact_id>/editContact', methods=('GET', 'POST'))
 def editContact(contact_id):
     contacts = ()
+    this = Entity()
     if request.method == 'POST':
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')

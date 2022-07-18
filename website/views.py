@@ -81,7 +81,7 @@ def editContact(contact_id):
             updatedContact.commit()
             updatedContact.info("Commit done")
             flash('Contact has been updated.', category='success')
-            return redirect(url_for('views.viewContact', updatedContact.id))
+            return redirect(url_for('views.viewContact', contact_id=updatedContact.id))
         this = Entity()
     contacts = this.read("id = " + str(contact_id))
     contact = contacts[0]

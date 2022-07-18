@@ -16,7 +16,7 @@ def add_contact():
     if request.method == 'POST':
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
-        dob = datetime.strptime(request.form.get('dob'), '%Y-%m-%d')
+        dob = datetime.datetime.strptime(request.form.get('dob'), '%Y-%m-%d')
         arg = {
             "firstName" : firstName,
             "lastName" : lastName,
@@ -56,7 +56,7 @@ def editContact(contact_id):
     if request.method == 'POST':
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
-        dob = datetime.strptime(request.form.get('dob'), '%Y-%m-%d')
+        dob = datetime.datetime.strptime(request.form.get('dob'), '%Y-%m-%d')
         arg = {
             "id" : contact_id,
             "firstName" : firstName,

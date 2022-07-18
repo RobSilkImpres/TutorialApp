@@ -77,7 +77,7 @@ class PersistanceManager(Audit):
             if not statement:
                 statement = x.upper() + " = " + str(attributeMap[x])
             else:
-                statement = statement + ", " + x.upper() + " = " + str.attributeMap[x]
+                statement = statement + ", " + x.upper() + " = " + str(attributeMap[x])
         statement = "UPDATE " + self.tableName + " SET " + statement + " WHERE ID = " + str(id)
         return {"stmt" : statement, "data" : tuple(values)}
     

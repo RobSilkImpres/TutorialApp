@@ -95,9 +95,12 @@ def editContact(contact_id):
 @views.route('/delete-contact', methods=['POST'])
 def delete_contact():
     this = Entity()
+    this.debug('Entering Delete Statement')
     note = json.loads(request.data)
+    this.debug(note)
     contactId = note['contactId']
     contact = this.read("id = " + str(contactId))
+    this.debug(contact)
     if contact:
         this.deleteById(contactId)
     return redirect(url_for('views.home'))

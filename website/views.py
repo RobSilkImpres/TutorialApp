@@ -76,6 +76,7 @@ def editContact(contact_id):
             updatedContact.update(arg)
             updatedContact.debug("Double checking")
             updatedContact.debug(updatedContact.id)
+            updatedContact.debug(updatedContact)
             updatedContact.info("Commit started")
             updatedContact.commit()
             updatedContact.info("Commit done")

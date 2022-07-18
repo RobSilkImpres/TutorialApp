@@ -56,6 +56,10 @@ class Object(PersistanceManager):
 
         self.runStatement(query)
     
+    def deleteById(self, id):
+        stmt = self.createDeleteByIDStatement(id)
+        self.runStatement
+    
     def getAttrs(self):
         return self.persistanceMapping.keys()
     def getClass():

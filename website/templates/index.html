@@ -3,6 +3,9 @@
 {% block content %}
     <h1>{% block title %} Welcome to IMVN.5 {% endblock %}</h1>
     {% for contact in contacts %}
+        <button type="button" class="close" onClick="deleteContact({{ contact['id'] }})">
+            <span aria-hidden="true">&times;</span>
+        </button>
         <a href={{contact['id']}}>
             <h2>{{ contact['lastName'] + ", " + contact['firstName'] }}</h2>
         </a>

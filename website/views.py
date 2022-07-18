@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, json
 from datetime import datetime, date
 from .entity import Entity
 import datetime
+import json
 views = Blueprint('views', __name__)
 
 @views.route('/')
@@ -90,3 +91,13 @@ def editContact(contact_id):
     else:
         flash('Contact ' + contact_id + ' not found.', category='warning')
         return redirect(url_for('views.home'))
+
+@views.route('/delete-contact', methods=['POST'])
+def delete_contact():
+    this = Entity()
+    note = json.loads(request.data)
+    contactId = note['contactId']
+    contact = this.read("id = " + str(contactId))
+    if contact:
+        this.deleteById(contactId)
+    return redirect(url_for('views.home'))

@@ -15,7 +15,7 @@
             <td class="label">Date of birth:</label>
             <td id="dob" name="dob">{{ contact['dob']}}</td>
         </div>
-        <a href={{ url_for('editContact', contact_id=contact['id']) }}>
+        <a href={{ url_for('views.editContact', contact_id=contact['id']) }}>
             <button class="editButton" style="height:75px;width:150px">Edit</button>
         </a>
     </div>

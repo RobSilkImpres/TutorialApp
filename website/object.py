@@ -24,6 +24,7 @@ class Object(PersistanceManager):
         result = self.runSelectStatement(statement)
         self.debug(result)
         for x in result:
+            self.debug(x)
             inst = x
             i = 1
             resultDict['id'] = inst[0]

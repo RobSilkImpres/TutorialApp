@@ -77,7 +77,7 @@ class PersistanceManager(Audit):
         return {"stmt" : statement, "data" : tuple(values)}
     
     def createDeleteByIDStatement(self, id):
-        statement = "DELETE FROM " + self.tableName + "WHERE ID = " + str(id)
+        statement = "DELETE FROM " + self.tableName + " WHERE ID = " + str(id)
         return {"stmt" : statement, "data" : tuple([])}
     
     def createSelectStatement(self, attrs='*', where=''):

@@ -85,7 +85,7 @@ def editContact(contact_id):
     contacts = this.read("id = " + str(contact_id))
     contact = contacts[0]
     if contact:
-        return render_template('contact.html', contact=contact)
+        return render_template('editContact.html', contact=contact)
     else:
         flash('Contact ' + contact_id + ' not found.', category='warning')
         return redirect(url_for('views.home'))

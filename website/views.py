@@ -51,6 +51,7 @@ def viewContact(contact_id):
 
 @views.route('/<int:contact_id>/editContact', methods=('GET', 'POST'))
 def editContact(contact_id):
+    contacts = ()
     if request.method == 'POST':
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
@@ -80,7 +81,7 @@ def editContact(contact_id):
             flash('Contact has been updated.', category='success')
             return redirect(url_for('views.viewContact', updatedContact.id))
         this = Entity()
-    contacts = this.read("id = " + contact_id)
+    contacts = this.read("id = " + str(contact_id))
     contact = contacts[0]
     if contact:
         return render_template('contact.html', contact=contact)

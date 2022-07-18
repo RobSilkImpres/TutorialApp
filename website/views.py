@@ -49,7 +49,7 @@ def viewContact(contact_id):
         flash('Contact ' + contact_id + ' not found.', category='warning')
         return redirect(url_for('views.home'))
 
-@views.route('/<contact_id>/edit', methods=('GET', 'POST'))
+@views.route('/<contact_id>/editContact', methods=('GET', 'POST'))
 def editContact(contact_id):
     if request.method == 'POST':
         firstName = request.form.get('firstName')

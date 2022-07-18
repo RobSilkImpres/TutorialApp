@@ -24,13 +24,16 @@ class Object(PersistanceManager):
         result = self.runSelectStatement(statement)
         self.debug(result)
         for x in result:
+            resultDict = []
             self.debug(x)
             inst = x
+            self.debug(inst)
             i = 1
             resultDict['id'] = inst[0]
             for y in attrs:
                 resultDict[y] = inst[i]
                 i = i + 1
+            self.debug(resultDict)
             resultSet.append(resultDict)
         self.debug(resultSet)
         return tuple(resultSet)

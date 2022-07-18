@@ -25,15 +25,12 @@ class Object(PersistanceManager):
         self.debug(result)
         for x in result:
             resultDict = {}
-            self.debug(x)
             inst = x
-            self.debug(inst)
             i = 1
             resultDict['id'] = inst[0]
             for y in attrs:
                 resultDict[y] = inst[i]
                 i = i + 1
-            self.debug(resultDict)
             resultSet.append(resultDict)
         self.debug(resultSet)
         return tuple(resultSet)
@@ -63,7 +60,7 @@ class Object(PersistanceManager):
     
     def deleteById(self, id):
         stmt = self.createDeleteByIDStatement(id)
-        self.runStatement
+        self.runStatement(stmt)
     
     def getAttrs(self):
         return self.persistanceMapping.keys()
